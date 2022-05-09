@@ -1,5 +1,5 @@
 from rest_framework import serializers
-
+from .custom_related_fields import CustomRelatedField
 from .models import Answer, Question
 
 
@@ -12,6 +12,8 @@ class PersonSerializer(serializers.Serializer):
 
 class QuestionSerializer(serializers.ModelSerializer):
     answers = serializers.SerializerMethodField()
+    user = CustomRelatedField(read_only=True)
+
 
     class Meta:
         model = Question
@@ -24,6 +26,7 @@ class QuestionSerializer(serializers.ModelSerializer):
 
 
 class AnswerSerializer(serializers.ModelSerializer):
+    user = CustomRelatedField(read_only=True)
     class Meta:
         model = Answer
         fields = '__all__'
